@@ -1,4 +1,4 @@
-from msilib.schema import ServiceInstall
+#from msilib.schema import ServiceInstall
 from .models import Car
 from rest_framework.response import Response 
 from .serializers import CarSerializer
