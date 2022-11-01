@@ -21,9 +21,9 @@ from .views import update_car
 from .views import delete_car
 
 urlpatterns = [
-    path("admin/", admin.site.urls), 
-    path("cars/", get_cars),
-    path("save_car/", save_car),
-    path("update_car/<int:id>", update_car),
-    path("delete_car/<int:id>", delete_car),
+path("admin/", admin.site.urls), 
+path("cars/", get_cars),
+path("save_car/", save_car),
+path("update_car/<int:id>", update_car),
+path("delete_car/<int:id>", delete_car),
 ]
