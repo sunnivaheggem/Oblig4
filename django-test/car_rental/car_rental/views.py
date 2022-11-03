@@ -131,7 +131,7 @@ def order_car(customer_id, car_id):
     try: 
         Car_object = Car.objects.get(pk=car_id)
         Customer_object= Customer.objects.get(pk=customer_id) #sjekke at ingen andre biler har blitt booket av personen
-        if Car_object.status == 'available':
+        if Car_object.status == 'available' and Customer_object == customer_id:
             Car_object.status = 'booked'
     except Car_object.DoesNotExist:
         return Response(status = status.HTTP_404_NOT_FOUND)
@@ -143,7 +143,7 @@ def cancel_order_car(customer_id, car_id):
     try: 
         Car_object = Car.objects.get(pk=car_id)
         Customer_object= Customer.objects.get(pk=customer_id) #sjekke at personen har booket den bilen
-        if Car_object.status == 'booked':
+        if Car_object.status == 'booked' and Customer_object == customer_id:
             Car_object.status = 'available'
             Car.objects.save()
     except Car_object.DoesNotExist:
@@ -156,7 +156,7 @@ def rent_car(customer_id, car_id):
     try:
         Car_object = Car.objects.get(pk = car_id)
         Customer_object = Customer.objects.get(pk = customer_id) #sjekke at personen har booket den bilen
-        if Car_object.status == 'booked':
+        if Car_object.status == 'booked' and Customer_object == customer_id:
             Car_object.status = 'rented'
     except Car_object.DoesNotExist:
         return Response(status = status.HTTP_404_NOT_FOUND)
@@ -169,7 +169,7 @@ def return_car(customer_id, car_id):
     try: 
         Car_object = Car.objects.get(pk = car_id)
         Customer_object = Customer.objects.get(pk = customer_id) #sjekke at personen er den som har leid bilen
-        if Car_object.status == 'booked':
+        if Car_object.status == 'booked' and Customer_object == customer_id:
             Car_object.status = 'available' #mangler status for skader
     except Car_object.DoesNotExist:
         return Response(status = status.HTTP_404_NOT_FOUND)
