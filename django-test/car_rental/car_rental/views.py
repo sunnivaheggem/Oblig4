@@ -124,10 +124,10 @@ def delete_employee(request, id):
     theEmployee.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
-#Kilde: Lecture 08
+
 
 @api_view (['GET'])
-def order_car(customer_id, car_id):
+def order_car(car_id, customer_id):
     try: 
         Car_object = Car.objects.get(pk=car_id)
         Customer_object= Customer.objects.get(pk=customer_id) #sjekke at ingen andre biler har blitt booket av personen
@@ -139,7 +139,7 @@ def order_car(customer_id, car_id):
     return Response(status = status.HTTP_204_NO_CONTENT)
 
 @api_view(['PUT'])
-def cancel_order_car(customer_id, car_id):
+def cancel_order_car(car_id, customer_id):
     try: 
         Car_object = Car.objects.get(pk=car_id)
         Customer_object= Customer.objects.get(pk=customer_id) #sjekke at personen har booket den bilen
@@ -151,7 +151,7 @@ def cancel_order_car(customer_id, car_id):
     return Response(status = status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
-def rent_car(customer_id, car_id):
+def rent_car(car_id, customer_id):
     try:
         Car_object = Car.objects.get(pk = car_id)
         Customer_object = Customer.objects.get(pk = customer_id) #sjekke at personen har booket den bilen
@@ -164,7 +164,7 @@ def rent_car(customer_id, car_id):
 
 
 @api_view(['PUT'])
-def return_car(customer_id, car_id):
+def return_car(car_id, customer_id):
     try: 
         Car_object = Car.objects.get(pk = car_id)
         Customer_object = Customer.objects.get(pk = customer_id) #sjekke at personen er den som har leid bilen
@@ -174,3 +174,5 @@ def return_car(customer_id, car_id):
         return Response(status = status.HTTP_404_NOT_FOUND)
     Car_object.save()
     return Response(status = status.HTTP_204_NO_CONTENT)
+
+#Kilde: Lecture 08
