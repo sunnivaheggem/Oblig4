@@ -68,7 +68,7 @@ def update_car(request, id):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
-def update_customer(request, id):
+def update_customer(request,id):
     try: 
         theCustomer = Customer.objects.get(pk=id)
     except Customer.DoesNotExist:
@@ -125,3 +125,53 @@ def delete_employee(request, id):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 #Kilde: Lecture 08
+
+@api_view (['GET'])
+def order_car(customer_id, car_id):
+    try: 
+        Car_object = Car.objects.get(pk=car_id)
+        Customer_object= Customer.objects.get(pk=customer_id) #sjekke at ingen andre biler har blitt booket av personen
+        if Car_object.status == 'available':
+            Car_object.status = 'booked'
+    except Car_object.DoesNotExist:
+        return Response(status = status.HTTP_404_NOT_FOUND)
+    Car_object.save()
+    return Response(status = status.HTTP_204_NO_CONTENT)
+
+@api_view(['PUT'])
+def cancel_order_car(customer_id, car_id):
+    try: 
+        Car_object = Car.objects.get(pk=car_id)
+        Customer_object= Customer.objects.get(pk=customer_id) #sjekke at personen har booket den bilen
+        if Car_object.status == 'booked':
+            Car_object.status = 'available'
+            Car.objects.save()
+    except Car_object.DoesNotExist:
+       return Response(status = status.HTTP_404_NOT_FOUND)
+    Car_object.save()
+    return Response(status = status.HTTP_204_NO_CONTENT)
+
+@api_view(['PUT'])
+def rent_car(customer_id, car_id):
+    try:
+        Car_object = Car.objects.get(pk = car_id)
+        Customer_object = Customer.objects.get(pk = customer_id) #sjekke at personen har booket den bilen
+        if Car_object.status == 'booked':
+            Car_object.status = 'rented'
+    except Car_object.DoesNotExist:
+        return Response(status = status.HTTP_404_NOT_FOUND)
+    Car_object.save()
+    return Response(status = status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['PUT'])
+def return_car(customer_id, car_id):
+    try: 
+        Car_object = Car.objects.get(pk = car_id)
+        Customer_object = Customer.objects.get(pk = customer_id) #sjekke at personen er den som har leid bilen
+        if Car_object.status == 'booked':
+            Car_object.status = 'available' #mangler status for skader
+    except Car_object.DoesNotExist:
+        return Response(status = status.HTTP_404_NOT_FOUND)
+    Car_object.save()
+    return Response(status = status.HTTP_204_NO_CONTENT)
