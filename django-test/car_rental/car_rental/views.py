@@ -126,6 +126,7 @@ def delete_employee(request, id):
 
 
 #basert på tidligere kode i forelesning 8 
+
 @api_view (['GET'])
 def order_car(car_id, customer_id):
     try: 
@@ -175,4 +176,3 @@ def return_car(car_id, customer_id):
     Car_object.save()
     return Response(status = status.HTTP_204_NO_CONTENT)
 
-#Kilde: Lecture 08
