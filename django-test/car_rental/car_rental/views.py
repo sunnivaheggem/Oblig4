@@ -126,8 +126,7 @@ def delete_employee(request, id):
 
 
 #basert på tidligere kode i forelesning 8 
-
-@api_view (['GET'])
+@api_view (['POST'])
 def order_car(car_id, customer_id):
     try: 
         Car_object = Car.objects.get(pk=car_id)
