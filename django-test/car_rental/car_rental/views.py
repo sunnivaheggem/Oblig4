@@ -125,7 +125,7 @@ def delete_employee(request, id):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
+#basert på tidligere kode i forelesning 8 
 @api_view (['GET'])
 def order_car(car_id, customer_id):
     try: 
@@ -133,7 +133,7 @@ def order_car(car_id, customer_id):
         Customer_object= Customer.objects.get(pk=customer_id) #sjekke at ingen andre biler har blitt booket av personen
         if Car_object.status == 'available':
             Car_object.status = 'booked'
-    except Car_object.DoesNotExist:
+    except Car_object.DoesNotExist or Customer_object.DoesNotExist:
         return Response(status = status.HTTP_404_NOT_FOUND)
     Car_object.save()
     return Response(status = status.HTTP_204_NO_CONTENT)
@@ -145,7 +145,7 @@ def cancel_order_car(car_id, customer_id):
         Customer_object= Customer.objects.get(pk=customer_id) #sjekke at personen har booket den bilen
         if Car_object.status == 'booked':
             Car_object.status = 'available'
-    except Car_object.DoesNotExist:
+    except Car_object.DoesNotExist or Customer_object.DoesNotExist:
        return Response(status = status.HTTP_404_NOT_FOUND)
     Car_object.save()
     return Response(status = status.HTTP_204_NO_CONTENT)
@@ -157,7 +157,7 @@ def rent_car(car_id, customer_id):
         Customer_object = Customer.objects.get(pk = customer_id) #sjekke at personen har booket den bilen
         if Car_object.status == 'booked':
             Car_object.status = 'rented'
-    except Car_object.DoesNotExist:
+    except Car_object.DoesNotExist or Customer_object.DoesNotExist:
         return Response(status = status.HTTP_404_NOT_FOUND)
     Car_object.save()
     return Response(status = status.HTTP_204_NO_CONTENT)
@@ -170,7 +170,7 @@ def return_car(car_id, customer_id):
         Customer_object = Customer.objects.get(pk = customer_id) #sjekke at personen er den som har leid bilen
         if Car_object.status == 'booked' and Car_object.status != 'damaged':
             Car_object.status = 'available' 
-    except Car_object.DoesNotExist:
+    except Car_object.DoesNotExist or Customer_object.DoesNotExist:
         return Response(status = status.HTTP_404_NOT_FOUND)
     Car_object.save()
     return Response(status = status.HTTP_204_NO_CONTENT)
